@@ -28,6 +28,7 @@ class CollectionController {
         monobankJarWidgetId,
         dueDate,
         author,
+        rejectReason: null,
       });
 
       await newCollection.save();
@@ -40,11 +41,11 @@ class CollectionController {
 
   async updateCollection(req: CollectionUpdateRequest, res: Response) {
     try {
-      const { _id: collectionId, ...updateData } = req.body;
+      const { _id: collectionId, rejectReason, ...updateData } = req.body;
 
       const updatedCollection = await Collection.findByIdAndUpdate(
         collectionId,
-        updateData,
+        { ...updateData, rejectReason },
         { new: true }
       );
 

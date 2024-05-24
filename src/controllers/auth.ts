@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 import User from "../models/auth/User";
-import Role from "../models/auth/Role";
 import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import { ROLE } from "../types/auth";
@@ -26,13 +25,12 @@ class AuthController {
 
       const hashPassword = bcrypt.hashSync(password, SALT);
 
-      const userRole = await Role.findOne({ value: ROLE.ADMIN });
       const user = new User({
         name,
         surname,
         email,
         password: hashPassword,
-        roles: [userRole?.value],
+        roles: ["USER"],
       });
 
       await user.save();
