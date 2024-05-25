@@ -18,9 +18,6 @@ authRouter.post(
   authController.registration
 );
 authRouter.post("/login", authController.login);
-authRouter.get(
-  "/users",
-  roleMiddleware(["USER", "ADMIN"]),
-  authController.getUsers
-);
+authRouter.get("/users", authController.getUsers);
 authRouter.get("/users/:id", authController.getUserById);
+authRouter.patch("/users", authController.updateUserRole);

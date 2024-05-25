@@ -76,11 +76,30 @@ class AuthController {
     }
   }
 
+  async updateUserRole(req: Request, res: Response) {
+    try {
+      const { email, newRole } = req.body;
+
+      const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { roles: [newRole] },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async getUserById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-
-      console.log("id", id);
 
       const users = await User.findById(id);
       res.json(users);
